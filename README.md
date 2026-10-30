@@ -1,29 +1,38 @@
-# K12 Hunar - EdTech CRM & Inquiry Management System
+# K12 Hunar – EdTech CRM & Inquiry Management System
 
-A full-stack EdTech CRM application that allows parents, students, and schools to submit inquiries and enables administrators to manage and track them through a secure dashboard.
+A full-stack EdTech CRM and Inquiry Management System developed as an internship assignment for K12 Hunar. The application allows parents, students, and schools to submit inquiries through a public form and enables administrators to manage, track, and update inquiries through a secure dashboard.
 
-## Features
+## 🚀 Live Demo
+
+- **Live Website:** https://k12-edtech-crm-ten.vercel.app/
+- **Admin Login:** https://k12-edtech-crm-ten.vercel.app/admin/login
+- **Backend API:** https://k12-edtech-crm.onrender.com
+- **GitHub Repository:** https://github.com/amarsinhgohil2004-code/k12-edtech-crm
+
+## ✨ Features
 
 ### Public Inquiry Form
 
 - Submit inquiries without logging in.
 - Select user type: Parent, Student, or School.
-- Select category: Scholarship, Concert, Admission, or General Query.
-- Enter name, email, phone number, and message.
+- Select inquiry category: Scholarship, Concert, Admission, or General Query.
+- Submit name, email, phone number, and message.
+- Store submitted inquiries in PostgreSQL.
 
 ### Admin Dashboard
 
 - Secure admin login using JWT authentication.
-- View all submitted inquiries.
+- View and manage submitted inquiries.
 - Search inquiries by name or phone number.
-- Filter by category and user type.
+- Filter inquiries by category and user type.
 - Update inquiry status: Pending, Contacted, or Resolved.
-- View inquiry summary statistics.
+- View inquiry statistics and analytics charts.
 - Protected dashboard routes.
+- Display the latest inquiries first.
 
-## Technology Stack
+## 🛠️ Technology Stack
 
-**Frontend**
+### Frontend
 
 - React.js
 - Vite
@@ -31,25 +40,37 @@ A full-stack EdTech CRM application that allows parents, students, and schools t
 - React Router
 - Axios
 - Lucide React
+- Recharts
 
-**Backend**
+### Backend
 
 - Node.js
 - Express.js
 - PostgreSQL
 - Supabase
-- JWT Authentication
+- JSON Web Token (JWT)
 - bcrypt
 - Helmet
+- CORS
 
-## Project Structure
+### Deployment
+
+- **Frontend:** Vercel
+- **Backend:** Render
+- **Database:** Supabase PostgreSQL
+- **Version Control:** Git and GitHub
+
+## 📁 Project Structure
 
 ```text
 k12-edtech-crm/
 │
 ├── frontend/
+│   ├── public/
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── dashboard/
+│   │   │   └── inquiry/
 │   │   ├── context/
 │   │   ├── pages/
 │   │   ├── routes/
@@ -57,7 +78,8 @@ k12-edtech-crm/
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   ├── .env.example
-│   └── package.json
+│   ├── package.json
+│   └── vercel.json
 │
 ├── backend/
 │   ├── config/
@@ -70,26 +92,36 @@ k12-edtech-crm/
 │   └── package.json
 │
 ├── schema.sql
+├── .gitignore
 └── README.md
 ```
 
-## Installation and Setup
+## ⚙️ Installation and Setup
 
-### 1. Clone the repository
+### Prerequisites
+
+- Node.js and npm
+- Git
+- Supabase account
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/amarsinhgohil2004-code/k12-edtech-crm.git
+
 cd k12-edtech-crm
 ```
 
 ### 2. Database Setup
 
-1. Create a Supabase project.
+1. Create a new project in Supabase.
 2. Open the Supabase SQL Editor.
 3. Execute the SQL commands from `schema.sql`.
 4. Copy your PostgreSQL connection string.
 
 ### 3. Backend Setup
+
+Navigate to the backend directory:
 
 ```bash
 cd backend
@@ -98,35 +130,38 @@ npm install
 
 Create a `.env` file using `.env.example`.
 
-Configure these variables:
+Configure the following environment variables:
 
 ```env
 DATABASE_URL=your_supabase_connection_string
 PORT=5000
 FRONTEND_URL=http://localhost:5173
 JWT_SECRET=your_secure_jwt_secret
+
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=your_admin_password
 ```
 
-Create the admin account:
+Create the initial admin account:
 
 ```bash
 node scripts/createAdmin.js
 ```
 
-Start the backend:
+Start the backend server:
 
 ```bash
 npm run dev
 ```
 
-Backend URL: `http://localhost:5000`
+Backend runs at:
+
+`http://localhost:5000`
 
 ### 4. Frontend Setup
 
-Open another terminal:
+Open another terminal and navigate to the frontend directory:
 
 ```bash
 cd frontend
@@ -141,51 +176,61 @@ Configure:
 VITE_API_URL=http://localhost:5000/api
 ```
 
-Start the frontend:
+Start the frontend development server:
 
 ```bash
 npm run dev
 ```
 
-Frontend URL: `http://localhost:5173`
+Frontend runs at:
 
-## API Endpoints
+`http://localhost:5173`
 
-| Method | Endpoint                    | Description           | Access |
-| ------ | --------------------------- | --------------------- | ------ |
-| POST   | `/api/inquiries`            | Submit inquiry        | Public |
-| POST   | `/api/auth/login`           | Admin login           | Public |
-| GET    | `/api/inquiries`            | Get all inquiries     | Admin  |
-| PATCH  | `/api/inquiries/:id/status` | Update inquiry status | Admin  |
-| GET    | `/api/health`               | Check API status      | Public |
+## 🔗 API Endpoints
 
-### Authentication
+| Method | Endpoint                    | Description            | Access |
+| ------ | --------------------------- | ---------------------- | ------ |
+| POST   | `/api/inquiries`            | Submit a new inquiry   | Public |
+| POST   | `/api/auth/login`           | Admin login            | Public |
+| GET    | `/api/inquiries`            | Retrieve all inquiries | Admin  |
+| PATCH  | `/api/inquiries/:id/status` | Update inquiry status  | Admin  |
+| GET    | `/api/health`               | Check API health       | Public |
 
-Admin authentication uses JWT.
+## 🔐 Authentication
 
-1. Send email and password to `/api/auth/login`.
-2. Receive a JWT token.
-3. Include the token in protected API requests:
+Admin authentication is implemented using custom JWT-based authentication.
+
+1. Admin submits email and password to `/api/auth/login`.
+2. Backend verifies the credentials using bcrypt.
+3. On successful authentication, the server generates a JWT token.
+4. The token is included in protected API requests.
+
+Example authorization header:
 
 ```http
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
-Supabase Auth is not used. Admin authentication is implemented using Express, bcrypt, and JSON Web Tokens.
+**Note:** Supabase Auth is not used. Authentication is implemented independently using Express.js, bcrypt, and JSON Web Tokens.
 
-## Security
+## 🛡️ Security
 
 - Passwords are hashed using bcrypt.
-- Protected APIs require JWT authentication.
+- Protected API routes require JWT authentication.
 - SQL queries use parameterized statements.
-- Environment variables store sensitive configuration.
-- Helmet provides HTTP security headers.
+- Sensitive configuration is stored in environment variables.
+- Helmet provides additional HTTP security headers.
+- CORS is configured to allow requests from the frontend.
 
-## Author
+## 👨‍💻 Author
 
 **Amarsinh Gohil**
 
 Full Stack Developer | MERN Stack
 
-- GitHub: https://github.com/amarsinhgohil2004-code
-- LinkedIn: https://linkedin.com/in/amarsinh-gohil
+- **GitHub:** https://github.com/amarsinhgohil2004-code
+- **LinkedIn:** https://linkedin.com/in/amarsinh-gohil
+
+---
+
+Developed as part of the K12 Hunar internship assignment.
