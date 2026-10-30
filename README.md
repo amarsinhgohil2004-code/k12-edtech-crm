@@ -78,7 +78,7 @@ k12-edtech-crm/
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/amarsinhgohil2004-code/k12-edtech-crm.git
 cd k12-edtech-crm
 ```
 
